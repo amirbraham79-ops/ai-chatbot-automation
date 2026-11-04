@@ -1,44 +1,40 @@
-# Chatbot IA et automatisation avec n8n
+# Chatbot IA pour WhatsApp
 
-## Présentation du projet
+Un chatbot intelligent développé avec **n8n**, **WhatsApp Cloud API** et **Google Gemini**. Ce projet permet d'automatiser les échanges sur WhatsApp grâce à l'intelligence artificielle.
 
-Ce projet personnel consiste à créer un chatbot utilisant l'intelligence artificielle afin de répondre aux messages des utilisateurs de manière conversationnelle.
+## Démonstration vidéo
 
-Le chatbot utilise l'API Google Gemini pour générer des réponses et n8n pour organiser les différentes étapes du workflow. Ce projet m'a permis de découvrir les applications pratiques des grands modèles de langage (LLM) et leur potentiel dans l'automatisation de certaines tâches.
-
-## Objectifs
-
-- Développer un chatbot capable de comprendre les messages des utilisateurs et de générer des réponses adaptées.
-- Concevoir un workflow d'automatisation avec n8n.
-- Intégrer un modèle d'intelligence artificielle via une API.
-- Explorer les possibilités de gestion de la mémoire conversationnelle.
-- Découvrir comment l'intelligence artificielle peut contribuer à automatiser certaines activités professionnelles.
+https://youtu.be/p3JYcFQb2-g
 
 ## Technologies utilisées
 
-- **n8n :** création et gestion du workflow d'automatisation.
-- **Google Gemini API :** génération des réponses du chatbot.
-- **Supabase :** exploration de solutions de stockage et de gestion des données conversationnelles.
-- **Docker :** exécution de l'environnement n8n en local.
+- **n8n** : automatisation du workflow et gestion de l'agent IA.
+- **Google Gemini** : génération des réponses intelligentes.
+- **WhatsApp Cloud API** : réception et envoi des messages.
+- **PostgreSQL Chat Memory** : conservation du contexte des conversations.
+- **Docker** : hébergement local de l'instance n8n.
+- **Cloudflare Tunnel** : accès externe aux webhooks.
 
-## Démonstration
+## Fonctionnalités
 
-Lien vers la démonstration vidéo :  https://youtu.be/4Jo5Ezhr0R8
+- Réception et traitement automatique des messages WhatsApp.
+- Génération de réponses grâce à Google Gemini.
+- Mémoire conversationnelle.
+- Prise en charge de plusieurs langues.
+- Exécution manuelle et automatique du workflow.
 
-## Fichiers du projet
+## Fonctionnement
 
-- `JSON.json` : export du workflow n8n.
-- `1prem capture..png` : première capture d'écran du projet.(exemple)
-- `2éme capture..png` : deuxième capture d'écran du projet.(exemple)
-- `3éme capture(preuve de mémoire)..png` : capture consacrée à la mémoire conversationnelle.(exemple)
-- `n8n workflow screenshot.png` : vue d'ensemble du workflow.
+1. Un utilisateur envoie un message sur WhatsApp.
+2. Le nœud WhatsApp Trigger reçoit le message.
+3. L'agent IA analyse la demande avec Google Gemini.
+4. La mémoire conversationnelle fournit le contexte nécessaire.
+5. La réponse générée est envoyée directement sur WhatsApp.
 
-## Ce que j'ai appris
+## Hébergement
 
-La réalisation de ce projet m'a permis de me familiariser avec l'intégration d'une API d'intelligence artificielle, la conception de workflows automatisés et les principes de fonctionnement d'un chatbot basé sur un grand modèle de langage.
+L'instance **n8n est hébergée localement sur une machine à l'aide de Docker**. Cloudflare Tunnel permet d'exposer les webhooks nécessaires à la communication avec WhatsApp Cloud API.
 
-Ce projet a également renforcé mon intérêt pour l'intelligence artificielle et ses applications dans l'automatisation des tâches.
+## Objectif du projet
 
----
-
-Projet personnel réalisé dans le cadre de mon apprentissage de l'intelligence artificielle et de l'automatisation.
+Concevoir un assistant conversationnel automatisé capable de comprendre les messages des utilisateurs et de leur répondre en temps réel grâce à l'intelligence artificielle.
