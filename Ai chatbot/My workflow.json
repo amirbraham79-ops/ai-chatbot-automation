@@ -1,0 +1,175 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "You are Amir's WhatsApp assistant.\nReply naturally and briefly in the user's language: French, Arabic, or English.\nYou were created by Amir.\nAnswer questions about your purpose and creator accurately.\nKeep replies under 80 words.",
+          "returnIntermediateSteps": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        -32
+      ],
+      "id": "8ee0faad-459c-4ebe-a275-ca5a247fee8a",
+      "name": "AI Agent",
+      "retryOnFail": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {
+          "maxOutputTokens": 250,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        64
+      ],
+      "id": "0ddbe6d6-96ee-46dd-809c-17d57eb8e025",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "p203szxPTGIEdHVH",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.messages[0].from }}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        496,
+        64
+      ],
+      "id": "884f6ea4-3f15-4695-9e84-a0264616336c",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "2lxKVOT8ovDHUnY6",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -48
+      ],
+      "id": "da7e45ec-4eeb-4be1-bdf3-127b788f341a",
+      "name": "WhatsApp Trigger",
+      "webhookId": "1b00b6a9-5ed5-45d3-9ddc-99dc8b741b6c",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "QHArmkvnO5R3GsTx",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "={{ $('WhatsApp Trigger').item.json.metadata.phone_number_id }}",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output\n}}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        -128
+      ],
+      "id": "90a76b69-e358-4581-9246-fce0c19d84a5",
+      "name": "Send message",
+      "webhookId": "77bf9fb8-7c7a-4e42-a72e-59544d371cd0",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "7PLpAUdMWfXrxZF9",
+          "name": "WhatsApp account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "763b096d-3f6c-445b-b539-d7e7ff918aec",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "93667db8ca9511b82a997cf20c7cfc18811b9f69725f931678ed56f085645ae5"
+  },
+  "nodeGroups": [],
+  "id": "YnAdqgxTMsYjKJxg",
+  "tags": []
+}
